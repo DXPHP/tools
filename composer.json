@@ -1,0 +1,19 @@
+{
+    "name": "weifd/tools",
+    "description": "封装一些常用的工具",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Tools\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "weifd",
+            "email": "phper2020@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
