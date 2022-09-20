@@ -1,5 +1,4 @@
 <?php
-
 namespace Tools;
 
 /**
@@ -38,14 +37,30 @@ class ArrTool
      * @return array
      */
     public static function object2Array($objParam) {
-        $obj_param = ( array )$objParam;
-        foreach ($obj_param as $key => $value) {
+        $obj = ( array )$objParam;
+        foreach ($obj as $key => $value) {
             if (is_object($value)) {
                 self::object2Array($value);
-                $obj_param [ $key ] = ( array )$value;
+                $obj [ $key ] = ( array )$value;
             }
         }
-        return $obj_param;
+        return $obj;
+    }
+
+    /**
+     * 多维数组转一维数组
+     * @param $array
+     * @return array
+     */
+    public static function rebuildArray($array) {
+        static $arr = array();
+        for ($i = 0; $i < count($array); $i++) {
+            if (is_array($array[ $i ])) {
+                self::rebuildArray($array[ $i ]);
+            } else {
+                $arr[] = $array[ $i ];
+            }
+        }
+        return $arr;
     }
 }
-
