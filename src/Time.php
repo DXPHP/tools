@@ -4,7 +4,7 @@
  * 时间工具类
  * Class TimeTool
  */
-class TimeTool
+class Time
 {
     /**
      * 计算两个时间戳间隔天数

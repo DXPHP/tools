@@ -6,7 +6,7 @@ namespace Tools;
  * Class ArrTool
  * @package Tools
  */
-class ArrTool
+class Arr
 {
     /**
      * 数组转对象
