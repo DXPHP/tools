@@ -41,8 +41,8 @@ class Str
 
     /**
      * [avatar 首字母头像 fastadmin的方法]
-     * @param  [type] $text 
-     * @return [type]       
+     * @param  [type] $text
+     * @return [type]
      */
     public static function avatar($text) {
         $total = unpack('L', hash('adler32', $text, true))[1];
@@ -110,4 +110,23 @@ class Str
             floor($b * 255)
         ];
     }
+
+    /**
+     * 字符串转数组 支持中文
+     * @param $str
+     * @param int $split_len
+     * @return array|bool|mixed
+     */
+    public static function strSplitUtf8($str, $split_len = 1) {
+        if (!is_numeric($split_len) ||  $split_len < 1) {
+            return false;
+        }
+        $len = mb_strlen($str, 'UTF-8');
+        if ($len <= $split_len) {
+            return array($str);
+        }
+        preg_match_all('/.{' . $split_len . '}|[^\x00]{1,' . $split_len . '}$/us', $str, $match);
+        return $match[0];
+    }
 }
+

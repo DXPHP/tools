@@ -117,5 +117,20 @@ class Time
         }
         return $msg;
     }
-}
 
+    /**
+     * 获取某个月的天数
+     * @param string $month
+     * @param string $year
+     * @return false|int|string
+     */
+    public static function daysInMonth($month='', $year='') {
+        $month = $month?$month:date('m');
+        $year = $year?$year:date('Y');
+        if (function_exists("cal_days_in_month")) {
+            return cal_days_in_month(CAL_GREGORIAN, $month, $year);
+        } else {
+            return date('t', mktime(0, 0, 0, $month, 1, $year));
+        }
+    }
+}

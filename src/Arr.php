@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools;
 
 /**
@@ -47,6 +48,39 @@ class Arr
         return $obj;
     }
 
+    public static function array2Xml($array, $root = 'xml') {
+        $xml = '<?xml version="1.0" encoding="utf-8"?>';
+        $xml .= '<' . $root . '>';
+        $xml .= self::arr2Xml($array);
+        $xml .= '</' . $root . '>';
+        return $xml;
+    }
+
+    private static function arr2Xml($array) {
+        $xml = '';
+        foreach ($array as $key => $value) {
+            is_numeric($key) && $key = "item id=\"$key\"";
+            $xml .= "<$key>";
+            $xml .= (is_array($value) || is_object($value)) ? self::arr2Xml($value) : $value;
+            list($key,) = explode(' ', $key);
+            $xml .= "</$key>";
+        }
+        return $xml;
+    }
+
+    /**
+     * xml转数组
+     * @param $xml
+     * @return mixed
+     */
+    public static function xml2Array($xml) {
+        //禁止引用外部xml实体
+        libxml_disable_entity_loader(true);
+        $xmlstring = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $arr = json_decode(json_encode($xmlstring), true);
+        return $arr;
+    }
+
     /**
      * 多维数组转一维数组
      * @param $array
@@ -59,6 +93,36 @@ class Arr
                 self::rebuildArray($array[ $i ]);
             } else {
                 $arr[] = $array[ $i ];
+            }
+        }
+        return $arr;
+    }
+
+    /**
+     * 删除数组中指定元素
+     * @param array $array
+     * @param $value
+     * @return array
+     */
+    public static function removeValue(array &$array, $value) {
+        $index = \array_search($value, $array);
+        if (false !== $index) {
+            unset($array[ $index ]);
+        }
+        return $array;
+    }
+
+    /**
+     * 根据键名获取数组中某一列的值
+     * @param $array
+     * @param $field
+     * @return array
+     */
+    public static function getArrColumn($array, $field) {
+        $arr = [];
+        foreach ($array as $key => $value) {
+            if ($value[ $field ]) {
+                $arr[] = $value[ $field ];
             }
         }
         return $arr;
