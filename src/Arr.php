@@ -3,7 +3,7 @@ namespace Tools;
 
 /**
  * 数组处理工具
- * Class ArrTool
+ * Class Arr
  * @package Tools
  */
 class Arr
