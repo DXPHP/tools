@@ -35,5 +35,11 @@ class Time
         $days = $interval->format('%a');
         return $days;
 	}
+
+    public static function thisMonth(){
+        $start = strtotime(date('Y-m-01'));
+        $end = strtotime(date('Y-m-t 23:59:59'));
+        return ['start'=>$start,'end'=>$end];
+    }
 }
 
