@@ -48,6 +48,12 @@ class Arr
         return $obj;
     }
 
+    /**
+     * 数组转XML
+     * @param $array
+     * @param string $root
+     * @return string
+     */
     public static function array2Xml($array, $root = 'xml') {
         $xml = '<?xml version="1.0" encoding="utf-8"?>';
         $xml .= '<' . $root . '>';
@@ -123,6 +129,50 @@ class Arr
         foreach ($array as $key => $value) {
             if ($value[ $field ]) {
                 $arr[] = $value[ $field ];
+            }
+        }
+        return $arr;
+    }
+
+    /**
+     * 多维数组根据某个字段排序
+     * @param $array
+     * @param $field
+     * @param string $order desc asc
+     * @return mixed
+     */
+    public static function sortArrByfield($array, $field, $order = 'desc') {
+        $column = array_column($array, $field);
+        if ($order == 'desc') {
+            array_multisort($column, SORT_DESC, $array);
+        } else {
+            array_multisort($column, SORT_ASC, $array);
+        }
+        return $array;
+    }
+
+    /**
+     * 一维数组去重
+     * @param $array
+     * @return array
+     */
+    public static function uniqueArr($array) {
+        return array_flip(array_flip($array));
+    }
+
+    /**
+     * 获取二维数组中的某一列
+     * @param $array
+     * @param $field
+     * @return array
+     */
+    public static function getColumn($array, $field) {
+        $arr = [];
+        foreach ($array as $key => $value) {
+            if (is_array($value) && isset($value[ $field ])) {
+                $arr[] = $value[ $field ];
+            } else {
+                $arr[ $field ] = $array[ $field ];
             }
         }
         return $arr;
