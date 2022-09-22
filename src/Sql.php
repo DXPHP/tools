@@ -40,25 +40,13 @@ class Sql
      */
     public static function updateSql($table,$array,$field,$con='id'){
         if ($field == $con) return false;
-        $conStr = implode(',',self::getColumn($array,$con));
+        $conStr = implode(',',array_column($array,$con));
         $sql = "UPDATE `{$table}` SET `{$field}` = CASE `{$con}` ";
         foreach($array as $key=>$value){
             $sql .= sprintf(" WHEN %s THEN '%s' ",$value[$con],$value[$field]);
         }
         $sql .= "END WHERE `{$con}` IN ($conStr)";
         return $sql;
-    }
-
-    public static function getColumn($array, $field) {
-        $arr = [];
-        foreach ($array as $key => $value) {
-            if (is_array($value) && isset($value[ $field ])) {
-                $arr[] = $value[ $field ];
-            } else {
-                $arr[ $field ] = $array[ $field ];
-            }
-        }
-        return $arr;
     }
 }
 
