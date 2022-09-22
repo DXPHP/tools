@@ -32,7 +32,7 @@ class Sql
     }
 
     /**
-     * @param $table
+     * @param $table 表名
      * @param $data
      * @param $field 要更新的字段
      * @param string $con 更新的条件
@@ -50,10 +50,16 @@ class Sql
     }
 
 
+    /**
+     * @param $table 表名
+     * @param $data
+     * @param string $con 更新的条件
+     * @return string
+     */
     public static function updateFiledsSql($table,$data,$con='id'){
-        //拼接批量更新sql语句
         $sql = "UPDATE `{$table}` SET ";
         foreach ($data[0] as $key => $value) {
+            //不更新作为条件的字段
             if ($key!=$con) {
                 $sql .= "`{$key}` = CASE `{$con}` ";
                 foreach ($data as $k=>$v) {
@@ -62,8 +68,7 @@ class Sql
                 $sql .= "END, ";
             }
         }
-        //把最后一个,去掉
-        $sql = substr($sql, 0, strrpos($sql,',')); 
+        $sql = substr($sql, 0, strrpos($sql,','));
         $conStr = implode(',',array_column($data,$con));
         $sql .= " WHERE ID IN ({$conStr});";
         return $sql;
