@@ -128,5 +128,31 @@ class Str
         preg_match_all('/.{' . $split_len . '}|[^\x00]{1,' . $split_len . '}$/us', $str, $match);
         return $match[0];
     }
+
+    /**
+     * 根据坐标计算两个点的距离
+     * @param $point1 114.018864,22.59099
+     * @param $point2 113.273773,23.149345
+     * @return float|int
+     */
+    public static function getDistanceBetweenPoints($point1,$point2) {
+        $point1 = explode(',', $point1);
+        $latitude1 = $point1[0];
+        $longitude1 = $point1[1];
+        $point2 = explode(',', $point2);
+        $latitude2 = $point2[0];
+        $longitude2 = $point2[1];
+        $theta = $longitude1 - $longitude2;
+        $miles = (sin(deg2rad($latitude1)) * sin(deg2rad($latitude2))) + (cos(deg2rad($latitude1)) * cos(deg2rad($latitude2)) * cos(deg2rad($theta)));
+        $miles = acos($miles);
+        $miles = rad2deg($miles);
+        $miles = $miles * 60 * 1.1515;
+        $feet = $miles * 5280;
+        $yards = $feet / 3;
+        $kilometers = $miles * 1.609344;
+        $meters = $kilometers * 1000;
+        // return compact('miles','feet','yards','kilometers','meters');
+        return $meters;
+    }
 }
 
