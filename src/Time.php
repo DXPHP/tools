@@ -1,5 +1,6 @@
 <?php
 
+namespace Tools;
 /**
  * 时间工具类
  * Class Time

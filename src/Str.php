@@ -1,5 +1,11 @@
 <?php
 
+namespace Tools;
+
+/**
+ * Class Str
+ * @package Tools
+ */
 class Str
 {
     /**
