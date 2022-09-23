@@ -9,10 +9,10 @@ namespace Tools;
 class Str
 {
     /**
-     * [getRandom 获取随机字符串]
-     * @param  string  $type [description]
-     * @param  integer $len  [description]
-     * @return [type]        [description]
+     * 获取随机字符串
+     * @param string $type
+     * @param int $len
+     * @return false|string
      */
 	public static function getRandom($type = 'alnum', $len = 8)
     {
@@ -160,5 +160,34 @@ class Str
         // return compact('miles','feet','yards','kilometers','meters');
         return $meters;
     }
+
+    /**
+     * 隐藏字符串的部分
+     * 如果原字符串不够长，会重复出现某一部分
+     * @param $str
+     * @param $start
+     * @param $end
+     * @param string $hide
+     * @return string
+     */
+    public static function hideStr($str, $start, $end, $hide='****') {
+        return  mb_substr($str, 0, $start) . $hide . mb_substr($str, 0 - $end);
+    }
+
+    /**
+     * 判断字符串是否包含某些字符串
+     * @param string $haystack
+     * @param array|string $needles
+     * @return bool
+     */
+    public static function contain($haystack,$needles){
+        foreach ((array)$needles as $needle){
+            if ($needle != '' && mb_strpos($haystack,$needle) !== false){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
 
