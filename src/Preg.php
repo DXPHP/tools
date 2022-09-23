@@ -1,5 +1,11 @@
 <?php
 
+namespace Tools;
+
+/**
+ * Class Preg
+ * @package Tools
+ */
 class Preg
 {
 
