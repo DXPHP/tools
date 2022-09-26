@@ -179,4 +179,17 @@ class Arr
         return $arr;
     }
 
+    /**
+     * 判断是否为索引数组
+     * @param $array
+     * @return bool
+     */
+    public static function isAssoc($array){
+        if (!is_array($array)) {
+            return false;
+        }
+        $keys = array_keys($array);
+        $indexList = range(0, count($array) - 1);
+        return $keys === $indexList;
+    }
 }
