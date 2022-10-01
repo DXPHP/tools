@@ -189,5 +189,38 @@ class Str
         return false;
     }
 
+    /**
+     * 获取客户端ip
+     * @return array|false|string
+     */
+    public static function getClientIP(){
+        if (getenv("HTTP_CLIENT_IP")) {
+            $ip = getenv("HTTP_CLIENT_IP");
+        }elseif(getenv("HTTP_X_FORWARDED_FOR")) {
+            $ip = getenv("HTTP_X_FORWARDED_FOR");
+        }elseif(getenv("REMOTE_ADDR")) {
+            $ip = getenv("REMOTE_ADDR");
+        else $ip = "Unknow";
+        }
+        return $ip;
+    }
+
+    /**
+     * 获取服务器ip
+     * @return array|false|mixed|string
+     */
+    public static function getServerIp() {
+        if (isset($_SERVER)) {
+            if($_SERVER['SERVER_ADDR']) {
+                $ip = $_SERVER['SERVER_ADDR'];
+            } else {
+                $ip = $_SERVER['LOCAL_ADDR'];
+            }
+        } else {
+            $ip = getenv('SERVER_ADDR');
+        }
+        return $ip;
+    }
+
 }
 
