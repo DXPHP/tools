@@ -14,7 +14,7 @@ class Str
      * @param int $len
      * @return false|string
      */
-	public static function getRandom($type = 'alnum', $len = 8)
+    public static function getRandom($type = 'alnum', $len = 8)
     {
         switch ($type) {
             case 'alpha':
@@ -50,7 +50,8 @@ class Str
      * @param  [type] $text
      * @return [type]
      */
-    public static function avatar($text) {
+    public static function avatar($text)
+    {
         $total = unpack('L', hash('adler32', $text, true))[1];
         $hue = $total % 360;
         list($r, $g, $b) = self::hsv2rgb($hue / 360, 0.3, 0.9);
@@ -68,7 +69,8 @@ class Str
     /**
      * [hsv2rgb fastadmin的方法]
      */
-    public static function hsv2rgb($h, $s, $v) {
+    public static function hsv2rgb($h, $s, $v)
+    {
         $r = $g = $b = 0;
 
         $i = floor($h * 6);
@@ -123,8 +125,9 @@ class Str
      * @param int $split_len
      * @return array|bool|mixed
      */
-    public static function strSplitUtf8($str, $split_len = 1) {
-        if (!is_numeric($split_len) ||  $split_len < 1) {
+    public static function strSplitUtf8($str, $split_len = 1)
+    {
+        if (!is_numeric($split_len) || $split_len < 1) {
             return false;
         }
         $len = mb_strlen($str, 'UTF-8');
@@ -141,7 +144,8 @@ class Str
      * @param $point2 113.273773,23.149345
      * @return float|int
      */
-    public static function getDistanceBetweenPoints($point1,$point2) {
+    public static function getDistanceBetweenPoints($point1, $point2)
+    {
         $point1 = explode(',', $point1);
         $latitude1 = $point1[0];
         $longitude1 = $point1[1];
@@ -170,8 +174,9 @@ class Str
      * @param string $hide
      * @return string
      */
-    public static function hideStr($str, $start, $end, $hide='****') {
-        return  mb_substr($str, 0, $start) . $hide . mb_substr($str, 0 - $end);
+    public static function hideStr($str, $start, $end, $hide = '****')
+    {
+        return mb_substr($str, 0, $start) . $hide . mb_substr($str, 0 - $end);
     }
 
     /**
@@ -180,13 +185,50 @@ class Str
      * @param array|string $needles
      * @return bool
      */
-    public static function contain($haystack,$needles){
-        foreach ((array)$needles as $needle){
-            if ($needle != '' && mb_strpos($haystack,$needle) !== false){
+    public static function contain($haystack, $needles)
+    {
+        foreach ((array)$needles as $needle) {
+            if ($needle != '' && mb_strpos($haystack, $needle) !== false) {
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * 获取客户端ip
+     * @return array|false|string
+     */
+    public static function getClientIP()
+    {
+        if (getenv("HTTP_CLIENT_IP")) {
+            $ip = getenv("HTTP_CLIENT_IP");
+        } elseif (getenv("HTTP_X_FORWARDED_FOR")) {
+            $ip = getenv("HTTP_X_FORWARDED_FOR");
+        } elseif (getenv("REMOTE_ADDR")) {
+            $ip = getenv("REMOTE_ADDR");
+        } else {
+            $ip = "Unknow";
+        }
+        return $ip;
+    }
+
+    /**
+     * 获取服务器ip
+     * @return array|false|mixed|string
+     */
+    public static function getServerIp()
+    {
+        if (isset($_SERVER)) {
+            if ($_SERVER['SERVER_ADDR']) {
+                $ip = $_SERVER['SERVER_ADDR'];
+            } else {
+                $ip = $_SERVER['LOCAL_ADDR'];
+            }
+        } else {
+            $ip = getenv('SERVER_ADDR');
+        }
+        return $ip;
     }
 
 }
